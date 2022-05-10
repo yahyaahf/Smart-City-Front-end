@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>swing</groupId>
+    <artifactId>M</artifactId>
+    <version>1.0</version>
+    <repositories>
+        <repository>
+            <id>unknown-jars-temp-repo</id>
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <url>file:${project.basedir}/lib</url>
+        </repository>
+    </repositories>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+    <groupId>com.formdev</groupId>
+    <artifactId>flatlaf</artifactId>
+    <version>0.20</version>
+    
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>unknown.binary</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+        <dependency>
+    <groupId>com.miglayout</groupId>
+    <artifactId>miglayout</artifactId>
+    <version>3.7.4</version>
+</dependency>
+<dependency>
+        <groupId>org.jxmapviewer</groupId>
+        <artifactId>jxmapviewer2</artifactId>
+        <version>2.5</version>
+    </dependency>
+<dependency>
+    <groupId>net.java.timingframework</groupId>
+    <artifactId>timingframework-swing</artifactId>
+    <version>7.3.1</version>
+</dependency>
+<dependency>
+    <groupId>com.kenai.nbpwr</groupId>
+    <artifactId>org-jdesktop-animation-timing</artifactId>
+    <version>1.0-201002281504</version>
+</dependency>
+        <dependency>
+            <groupId>unknown.binary</groupId>
+            <artifactId>jcalendar-1.4</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    
+  <build>
+        <!-- Gestion des plugins (version) -->
+         <directory>${project.basedir}/output</directory>
+        <pluginManagement>
+            <plugins>
+                <!-- Plugin responsable de la génération du fichier JAR -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+        <!--  <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        Création du Manifest pour la définition de la classe Main
+                        <manifest>
+                            <mainClass>ma.uiass.eia.RestServer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>-->
+             
+            
+            
+                  <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+            <archive>
+                        <manifest>
+                            <mainClass>newpackage.Main</mainClass>
+                        </manifest>
+                    </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+         <plugin>
+         
+           
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+            
+        </plugins>
+    </build>
+    <name>clientV3</name>
+</project>
