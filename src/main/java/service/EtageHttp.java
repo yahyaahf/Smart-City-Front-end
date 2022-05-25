@@ -50,11 +50,13 @@ public class EtageHttp {
 
         for(int i=0;i<response.size();i++) {
             JsonObject obj = (JsonObject)response.get(i);
+            long id=obj.get("id").getAsLong();
             long numEtage= obj.get("etageNum").getAsLong();
             double surface=obj.get("surface").getAsDouble();
             
-            Etage e1=new Etage(numEtage,surface);
-            etages.add(e1);
+            Etage e2=new Etage(id,numEtage,surface);
+            //Etage e1=new Etage(numEtage,surface);
+            etages.add(e2);
         }
             
             return etages;

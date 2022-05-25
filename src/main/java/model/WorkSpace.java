@@ -79,7 +79,8 @@ public class WorkSpace {
 	}
 	@Override
 	public String toString() {
-		return "WorkSpace [numero=" + numero + ", surface=" + surface + ", type=" + type + ", etage=" + etage
-				+ ", position=" + position + "]";
+		/*return "WorkSpace [id=" + id + ", numero=" + numero + ", surface=" + surface + ", type=" + type + ", etage=" + etage
+				+ ", position=" + position + "]";*/
+                return ""+type;
 	}
 }

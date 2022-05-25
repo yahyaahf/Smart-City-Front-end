@@ -28,6 +28,7 @@ import model.ClientIndividu;
 import service.ClientHttp;
 import service.LocationHttp;
 import java.text.*;
+import java.util.ArrayList;
 import model.Location;
 import service.ReservationHttp;
 
@@ -41,6 +42,10 @@ public  class Main extends javax.swing.JFrame {
     DefaultTableModel d3= new DefaultTableModel();
     DefaultTableModel d4= new DefaultTableModel();
     DefaultTableModel d5= new DefaultTableModel();
+    DefaultTableModel d6= new DefaultTableModel();
+    
+    
+    
     /**
      * Creates new form Main
      */
@@ -56,6 +61,7 @@ public  class Main extends javax.swing.JFrame {
         jTable2.setModel(d2);
         EtageHttp eh=new EtageHttp();
         List<Etage> etages=eh.getEtageFromServer(1);
+        
         for(Etage e:etages){
             remplirEtage.addItem(e);
         }
@@ -71,6 +77,10 @@ public  class Main extends javax.swing.JFrame {
         String[] table5 =new String[]{"nom","prenom","sexe","email","telephone","adresse"};
         d5.setColumnIdentifiers(table5);
         jTable3.setModel(d5);
+        String[] table6 =new String[]{"Aile Gauche","Aile Droite"};
+        d6.setColumnIdentifiers(table6);
+        planEtage.setModel(d6);
+        
     }
 
     private void init2(){
@@ -117,12 +127,41 @@ public  class Main extends javax.swing.JFrame {
     }
     
     void remplirTable2(){
-        
+       
+        //d2= new DefaultTableModel();
+        //d6= new DefaultTableModel();
         Etage etage=(Etage) jComboBox2.getSelectedItem();
-        
+        System.out.println(etage.getId());
         long numeroetage=etage.getNumEtage();
         WorkSpaceHttp eh=new WorkSpaceHttp();
         List<WorkSpace> workSpaces=eh.getWorkSpaceFromServer(numeroetage);
+        int size=workSpaces.size();
+        System.out.println(size);
+        //int a=size/2;
+        List<Long> droite=new ArrayList<>();
+        List<Long> gauche=new ArrayList<>();
+        for(int i=1;i<=(size/2);i++){
+            //int b=i-1;
+            
+            if(i%2==0){
+                
+                //long numero=workSpaces.get(i-1).getNumero();
+                droite.add(workSpaces.get(i-1).getNumero());
+            }
+            else if(i%2!=0){
+                //long numero=workSpaces.get(i-1).getNumero();
+                gauche.add(workSpaces.get(i-1).getNumero());
+            }
+            
+        }
+     for (Long droite1 : droite) {
+         for (Long gauche1 : gauche) {
+             d6.addRow(new Object[]{
+                 gauche1,droite1
+             });
+         }
+     }
+        
         String numero = null, workspace = null,surface = null;
         for(WorkSpace e:workSpaces){
             numero=String.valueOf(e.getNumero());
@@ -131,6 +170,7 @@ public  class Main extends javax.swing.JFrame {
             d2.addRow(new Object[]{
                 numero,workspace,surface
             });
+            
             
            
             
@@ -199,13 +239,9 @@ public  class Main extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        col1 = new javax.swing.JPanel();
-        salleReunion = new javax.swing.JLabel();
-        bureau2 = new javax.swing.JLabel();
-        bureau1 = new javax.swing.JLabel();
-        espace2 = new javax.swing.JLabel();
-        espace1 = new javax.swing.JLabel();
-        col2 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        planEtage = new javax.swing.JTable();
+        jPanel37 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         radioIndividu = new javax.swing.JRadioButton();
         radioEntreprise = new javax.swing.JRadioButton();
@@ -405,7 +441,7 @@ public  class Main extends javax.swing.JFrame {
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
         jButton39 = new javax.swing.JButton();
-        jComboBox23 = new javax.swing.JComboBox<>();
+        reserveWork = new javax.swing.JComboBox<>();
         dateFinReservation = new com.toedter.calendar.JDateChooser();
         dateDebutReservation = new com.toedter.calendar.JDateChooser();
         heureFin = new javax.swing.JTextField();
@@ -548,12 +584,17 @@ public  class Main extends javax.swing.JFrame {
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jComboBox2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox2MouseClicked(evt);
+            }
+        });
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
             }
         });
-        jPanel4.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 220, -1));
+        jPanel4.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 220, -1));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -563,67 +604,33 @@ public  class Main extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "numero", "workspace", "surface"
+                "Numero", "Type", "surface"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 340, 230));
+        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 340, 230));
 
-        col1.setBackground(new java.awt.Color(244, 231, 231));
+        planEtage.setBackground(new java.awt.Color(158, 231, 249));
+        planEtage.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        planEtage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        planEtage.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        javax.swing.GroupLayout col1Layout = new javax.swing.GroupLayout(col1);
-        col1.setLayout(col1Layout);
-        col1Layout.setHorizontalGroup(
-            col1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 210, Short.MAX_VALUE)
-        );
-        col1Layout.setVerticalGroup(
-            col1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
+            },
+            new String [] {
+                " Rayon Gauche", " Rayon Droit"
+            }
+        ));
+        jScrollPane7.setViewportView(planEtage);
+        if (planEtage.getColumnModel().getColumnCount() > 0) {
+            planEtage.getColumnModel().getColumn(0).setResizable(false);
+        }
 
-        jPanel4.add(col1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 210, 40));
+        jPanel4.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 60, 330, 120));
 
-        salleReunion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        salleReunion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ihm/icon/planEspace.jpeg"))); // NOI18N
-        salleReunion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.add(salleReunion, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 50, 340, 130));
-
-        bureau2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bureau2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ihm/icon/brfermé.jpeg"))); // NOI18N
-        bureau2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.add(bureau2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 130, 100));
-
-        bureau1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bureau1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ihm/icon/brfermé.jpeg"))); // NOI18N
-        bureau1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.add(bureau1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 180, 130, 100));
-
-        espace2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        espace2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ihm/icon/planSalle.jpeg"))); // NOI18N
-        espace2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.add(espace2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 130, 120));
-
-        espace1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        espace1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ihm/icon/planSalle.jpeg"))); // NOI18N
-        espace1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.add(espace1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 280, 130, 160));
-
-        col2.setBackground(new java.awt.Color(244, 231, 231));
-
-        javax.swing.GroupLayout col2Layout = new javax.swing.GroupLayout(col2);
-        col2.setLayout(col2Layout);
-        col2Layout.setHorizontalGroup(
-            col2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        col2Layout.setVerticalGroup(
-            col2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 220, Short.MAX_VALUE)
-        );
-
-        jPanel4.add(col2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 220, 80, 220));
+        jPanel37.setLayout(new java.awt.GridLayout());
+        jPanel4.add(jPanel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 340, 250));
 
         jTabbedPane1.addTab("tab2", jPanel4);
 
@@ -1504,10 +1511,10 @@ public  class Main extends javax.swing.JFrame {
         jPanel36.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel51.setText("WorkSpace :");
-        jPanel36.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 75, -1));
+        jPanel36.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 75, -1));
 
         jLabel52.setText("Date Début :");
-        jPanel36.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 75, -1));
+        jPanel36.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 75, -1));
 
         jLabel53.setText("Date fin :");
         jPanel36.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 87, 20));
@@ -1527,9 +1534,9 @@ public  class Main extends javax.swing.JFrame {
         });
         jPanel36.add(jButton39, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 422, 100, 40));
 
-        jPanel36.add(jComboBox23, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 120, -1));
+        jPanel36.add(reserveWork, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 120, -1));
         jPanel36.add(dateFinReservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 120, 20));
-        jPanel36.add(dateDebutReservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 120, 20));
+        jPanel36.add(dateDebutReservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, 120, 20));
 
         heureFin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1611,7 +1618,8 @@ public  class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       jTabbedPane1.setSelectedIndex(1);
+      
+        jTabbedPane1.setSelectedIndex(1);
         int i=jTable1.getSelectedRow();
         TableModel tm=jTable1.getModel();
         long numeroBuilding=Long.parseLong(tm.getValueAt(i, 0).toString());
@@ -1623,13 +1631,7 @@ public  class Main extends javax.swing.JFrame {
             jComboBox2.addItem(e);
             System.out.println(e.toString());
         }
-        salleReunion.setVisible(false);
-        bureau1.setVisible(false);
-        bureau2.setVisible(false);
-        espace1.setVisible(false);
-        espace2.setVisible(false);
-        col1.setVisible(false);
-        col2.setVisible(false);
+        
         
     
         
@@ -1645,17 +1647,7 @@ public  class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        while(d2.getRowCount() > 0){
-            d2.removeRow(0);
-        }
-        salleReunion.setVisible(true);
-        bureau1.setVisible(true);
-        bureau2.setVisible(true);
-        espace1.setVisible(true);
-        espace2.setVisible(true);
-        col1.setVisible(true);
-        col2.setVisible(true);
-        remplirTable2();
+        
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void radioEntrepriseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioEntrepriseActionPerformed
@@ -2038,6 +2030,19 @@ public  class Main extends javax.swing.JFrame {
     private void heureDebutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_heureDebutActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_heureDebutActionPerformed
+
+    private void jComboBox2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MouseClicked
+        // TODO add your handling code here:
+        while(d2.getRowCount() > 0){
+            d2.removeRow(0);
+        }
+        while(d6.getRowCount() > 0){
+            d6.removeRow(0);
+        }
+        
+        
+        remplirTable2();
+    }//GEN-LAST:event_jComboBox2MouseClicked
        
     
     /**
@@ -2103,20 +2108,14 @@ public  class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ajoutVilleWork;
     private javax.swing.JTextField ajoutlantitude;
     private javax.swing.JTextField ajoutlongitude;
-    private javax.swing.JLabel bureau1;
-    private javax.swing.JLabel bureau2;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JPanel col1;
-    private javax.swing.JPanel col2;
     private com.toedter.calendar.JDateChooser dateCreation;
     private com.toedter.calendar.JDateChooser dateDebut;
     private com.toedter.calendar.JDateChooser dateDebutReservation;
     private com.toedter.calendar.JDateChooser dateFin;
     private com.toedter.calendar.JDateChooser dateFinReservation;
     private javax.swing.JComboBox<String> deleteVille;
-    private javax.swing.JLabel espace1;
-    private javax.swing.JLabel espace2;
     private javax.swing.JRadioButton female;
     private javax.swing.JTextField heureDebut;
     private javax.swing.JTextField heureFin;
@@ -2174,7 +2173,6 @@ public  class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<Etage> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox20;
     private javax.swing.JComboBox<String> jComboBox21;
-    private javax.swing.JComboBox<String> jComboBox23;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2264,6 +2262,7 @@ public  class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -2277,6 +2276,7 @@ public  class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane10;
     private javax.swing.JTabbedPane jTabbedPane2;
@@ -2313,11 +2313,12 @@ public  class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<WorkSpace> locationWorkSpace;
     private javax.swing.JRadioButton male;
     private javax.swing.JTextField montant;
+    private javax.swing.JTable planEtage;
     private javax.swing.JRadioButton radioEntreprise;
     private javax.swing.JRadioButton radioIndividu;
     private javax.swing.JComboBox<Etage> remplirEtage;
     private javax.swing.JTable remplirWork;
-    private javax.swing.JLabel salleReunion;
+    private javax.swing.JComboBox<String> reserveWork;
     private javax.swing.JComboBox<String> update;
     private javax.swing.JComboBox<String> updateVille;
     // End of variables declaration//GEN-END:variables

@@ -47,7 +47,7 @@ public class WorkSpaceHttp {
 	    		
 	        for(int i=0;i<response.size();i++) {
 	            JsonObject obj = (JsonObject)response.get(i);
-                    
+                    long id=obj.get("id").getAsLong();
                     String type=obj.get("type").getAsString();
 	            long numero= obj.get("numero").getAsLong();
                     String position=obj.get("position").getAsString();
@@ -56,7 +56,7 @@ public class WorkSpaceHttp {
 	            int etage= obj.get("numeroEtage").getAsInt();
 	            
 	            
-	            WorkSpace ws1=new WorkSpace(numero, surface, type, etage, position);
+	            WorkSpace ws1=new WorkSpace(id,numero, surface, type, etage, position);
 	            workspaces.add(ws1);
                     
 	        }

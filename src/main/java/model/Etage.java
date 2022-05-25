@@ -11,10 +11,17 @@ import java.util.List;
  * @author Lenovo
  */
 public class Etage {
+    private long id;
     private long numEtage;
 	private double surface;
 	private List<WorkSpace> workSpaces;
 	private SmartBuilding smartBuilding;
+        
+        public Etage(long id,long numEtage,double surface){
+            this.id=id;
+            this.numEtage=numEtage;
+            this.surface=surface;
+        }
 	
 	public Etage(long numEtage, double surface/* List<WorkSpace> workSpaces, SmartBuilding smartBuilding*/) {
 		
@@ -22,6 +29,14 @@ public class Etage {
 		this.surface = surface;
 	//	this.workSpaces = workSpaces;
 	//	this.smartBuilding = smartBuilding;
+	}
+        
+        public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id=id;
 	}
 
 	public long getNumEtage() {
@@ -58,7 +73,8 @@ public class Etage {
 
 	@Override
 	public String toString() {
-		return "Etage [numEtage=" + numEtage + ", surface=" + surface + "]";
+		//return "Etage [id="+id+"numEtage=" + numEtage + ", surface=" + surface + "]";
+                return ""+numEtage;
 	}
     
 }
